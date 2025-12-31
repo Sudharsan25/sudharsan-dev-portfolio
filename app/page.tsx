@@ -4,7 +4,18 @@
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Cloud, Database, Layers, Layout, Server } from "lucide-react";
+import {
+  Cloud,
+  Database,
+  Layers,
+  Layout,
+  Server,
+  Home,
+  User,
+  Briefcase,
+  FolderKanban,
+  Mail,
+} from "lucide-react";
 import { toast } from "sonner";
 
 export default function Portfolio() {
@@ -48,12 +59,12 @@ export default function Portfolio() {
   };
 
   const menuItems = [
-    { id: "home", label: "Home" },
-    { id: "about", label: "About" },
-    { id: "experiences", label: "Experiences" },
-    { id: "works", label: "Works" },
+    { id: "home", label: "Home", icon: Home },
+    { id: "about", label: "About", icon: User },
+    { id: "experiences", label: "Experiences", icon: Briefcase },
+    { id: "works", label: "Works", icon: FolderKanban },
     // { id: "blogs", label: "Blogs" },
-    { id: "contact", label: "Contact" },
+    { id: "contact", label: "Contact", icon: Mail },
   ];
 
   const scrollToSection = (sectionId: string) => {
@@ -89,26 +100,24 @@ export default function Portfolio() {
   }, [menuItems]);
 
   return (
-    <motion.div className="flex min-h-screen bg-lavender-blush-100">
+    <motion.div className="flex min-h-screen bg-background">
       {/* Mobile Header */}
       <header className="lg:hidden fixed top-0 left-0 right-0 h-16 flex items-center justify-between px-4 bg-background/90 backdrop-blur z-50 border-b border-border">
         <div>
-          <h1 className="font-serif font-bold text-lg text-amber-50">
-            Sudharsan
-          </h1>
+          <h1 className="font-serif font-bold text-lg text-black">Sudharsan</h1>
         </div>
         <div className="flex items-center gap-3">
           <button
             aria-label="Toggle menu"
             onClick={() => setMobileMenuOpen((s) => !s)}
-            className="p-2 rounded-md bg-white/5">
+            className="p-2 rounded-md bg-muted/50 hover:bg-muted transition-colors">
             {mobileMenuOpen ? "Close" : "Menu"}
           </button>
         </div>
       </header>
 
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-16 top-16 z-40 bg-background/95 backdrop-blur p-6">
+        <div className="lg:hidden fixed inset-16 top-16 z-40 bg-background/98 backdrop-blur p-6 border-b border-border">
           <nav className="flex flex-col gap-4">
             {menuItems.map((item) => (
               <button
@@ -117,7 +126,7 @@ export default function Portfolio() {
                   scrollToSection(item.id);
                   setMobileMenuOpen(false);
                 }}
-                className="font-sans text-lg uppercase text-foreground/90">
+                className="font-sans text-lg uppercase text-black">
                 {item.label}
               </button>
             ))}
@@ -125,37 +134,33 @@ export default function Portfolio() {
         </div>
       )}
       {/* Sidebar */}
-      <aside className="hidden lg:flex fixed left-0 top-0 h-screen w-[285px] bg-gradient-to-b from-coffee-bean-900 to-coffee-bean-800 border-r border-pearl-aqua-500/20 flex-col justify-between py-14 px-12 z-50">
+      <aside className="hidden lg:flex fixed left-0 top-0 h-screen w-[285px] bg-sidebar border-r border-sidebar-border flex-col justify-between py-14 px-12 z-50">
         {/* Logo */}
         <div>
-          <h1 className="font-serif font-bold text-[30px] text-amber-50">
-            Sudharsan
-          </h1>
-
-          <div className="relative mb-8">
-            <img src="/assets/icons/line.svg" alt="" className="w-[69px] h-1" />
-          </div>
-
           {/* Navigation Menu */}
-          <nav className="flex flex-col gap-5">
-            {menuItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => scrollToSection(item.id)}
-                className={`font-sans text-[20px] uppercase text-left transition-all duration-300 ${
-                  activeSection === item.id
-                    ? "font-bold text-amber-100"
-                    : "font-normal text-white/60 hover:text-amber-100"
-                }`}>
-                {item.label}
-              </button>
-            ))}
+          <nav className="flex flex-col gap-5 justify-center">
+            {menuItems.map((item) => {
+              const IconComponent = item.icon;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => scrollToSection(item.id)}
+                  className={`font-sans text-[20px] uppercase text-left transition-all duration-300 flex items-center gap-3 ${
+                    activeSection === item.id
+                      ? "font-bold text-white"
+                      : "font-normal text-sidebar-foreground/70 hover:text-amber-100"
+                  }`}>
+                  <IconComponent className="w-5 h-5" />
+                  {item.label}
+                </button>
+              );
+            })}
           </nav>
         </div>
 
         {/* Social Icons Bottom */}
         <div className="flex gap-3 items-start">
-          <button className="p-2 rounded-lg hover:bg-bubblegum-pink-500/20 transition-all duration-300 group">
+          <button className="p-2 rounded-lg hover:bg-sidebar-accent/20 transition-all duration-300 group">
             <a
               href="https://x.com/sudharsanskumar"
               target="_blank"
@@ -169,7 +174,7 @@ export default function Portfolio() {
               />
             </a>
           </button>
-          <button className="p-2 rounded-lg hover:bg-bubblegum-pink-500/20 transition-all duration-300 group">
+          <button className="p-2 rounded-lg hover:bg-sidebar-accent/20 transition-all duration-300 group">
             <a
               href="https://www.linkedin.com/in/sudharsans25/"
               target="_blank"
@@ -183,7 +188,7 @@ export default function Portfolio() {
               />
             </a>
           </button>
-          <button className="p-2 rounded-lg hover:bg-bubblegum-pink-500/20 transition-all duration-300 group">
+          <button className="p-2 rounded-lg hover:bg-sidebar-accent/20 transition-all duration-300 group">
             <a
               href="https://github.com/Sudharsan25"
               target="_blank"
@@ -229,26 +234,24 @@ export default function Portfolio() {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}>
-              <h1 className="font-serif font-bold text-3xl sm:text-4xl md:text-5xl lg:text-[64px] text-foreground leading-tight mb-8 lg:mb-24">
+              <h1 className="font-serif font-bold text-3xl sm:text-4xl md:text-5xl lg:text-[64px] text-black leading-tight mb-8 lg:mb-24">
                 Hi, I&apos;m Sudharsan
               </h1>
-              <h3 className="font-sans text-lg sm:text-xl md:text-2xl lg:text-[30px] text-foreground/80 leading-relaxed">
+              <h3 className="font-sans text-lg sm:text-xl md:text-2xl lg:text-[30px] text-black leading-relaxed">
                 <span className="font-bold">Full-Stack Developer</span> <br />
                 Building scalable systems and intelligent products end to end.
               </h3>
             </motion.div>
           </motion.div>
-
-          {/* Profile Image
-          <div className="relative mr-36">
+          {/* <motion.div className="relative">
             <Image
-              src="/assets/icons/ProfilePic_Comp.png"
+              src="/assets/images/heroimage.png"
               alt="Sudharsan"
-              width={500}
-              height={500}
-              className="w-[400px] h-[500px] object-contain "
+              width={800}
+              height={800}
+              className="w-[800px] h-[800px] object-contain "
             />
-          </div> */}
+          </motion.div> */}
         </section>
 
         {/* About Section */}
@@ -262,7 +265,7 @@ export default function Portfolio() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}>
             <motion.h2
-              className="font-serif font-bold text-2xl sm:text-3xl md:text-4xl lg:text-[48px] text-foreground mb-8"
+              className="font-serif font-bold text-2xl sm:text-3xl md:text-4xl lg:text-[48px] text-black mb-8"
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
@@ -275,7 +278,7 @@ export default function Portfolio() {
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.4 }}
               viewport={{ once: true }}>
-              <p className="font-sans text-[18px] text-foreground/80 leading-relaxed mb-6">
+              <p className="font-sans text-[18px] text-black leading-relaxed mb-6">
                 I build modern, scalable software products from the ground up —
                 from clean, interactive user interfaces to reliable backend
                 systems and cloud infrastructure.
@@ -302,13 +305,13 @@ export default function Portfolio() {
             </motion.div>
 
             <motion.div
-              className="bg-white/50 backdrop-blur-sm rounded-2xl p-8 border-2 border-foreground/10"
+              className="bg-card/80 backdrop-blur-sm rounded-2xl p-8 border-2 border-border"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.6 }}
               viewport={{ once: true }}>
-              <h3 className="font-sans font-bold text-[24px] text-foreground mb-6 flex items-center gap-2">
-                <Layers className="w-6 h-6" />
+              <h3 className="font-sans font-bold text-[24px] text-black mb-6 flex items-center gap-2">
+                <Layers className="w-6 h-6 text-black" />
                 Tech Stack
               </h3>
 
@@ -321,11 +324,8 @@ export default function Portfolio() {
                   transition={{ duration: 0.5, delay: 0.7 }}
                   viewport={{ once: true }}>
                   <div className="flex items-center gap-2 mb-3">
-                    <Layout
-                      className="w-5 h-5 text-foreground/70"
-                      strokeWidth={2}
-                    />
-                    <h4 className="font-sans font-semibold text-[16px] text-foreground/80 uppercase tracking-wide">
+                    <Layout className="w-5 h-5 text-black" strokeWidth={2} />
+                    <h4 className="font-sans font-semibold text-[16px] text-black uppercase tracking-wide">
                       Frontend
                     </h4>
                   </div>
@@ -340,7 +340,7 @@ export default function Portfolio() {
                     ].map((tech) => (
                       <span
                         key={tech}
-                        className="px-3 py-1.5 bg-foreground/5 text-foreground/80 rounded-lg font-sans text-[14px] font-medium border border-foreground/10 hover:bg-foreground/10 transition-colors">
+                        className="px-3 py-1.5 bg-muted text-black rounded-lg font-sans text-[14px] font-medium border border-border hover:bg-primary/10 hover:border-primary/30 transition-colors">
                         {tech}
                       </span>
                     ))}
@@ -355,11 +355,8 @@ export default function Portfolio() {
                   transition={{ duration: 0.5, delay: 0.8 }}
                   viewport={{ once: true }}>
                   <div className="flex items-center gap-2 mb-3">
-                    <Server
-                      className="w-5 h-5 text-foreground/70"
-                      strokeWidth={2}
-                    />
-                    <h4 className="font-sans font-semibold text-[16px] text-foreground/80 uppercase tracking-wide">
+                    <Server className="w-5 h-5 text-black" strokeWidth={2} />
+                    <h4 className="font-sans font-semibold text-[16px] text-black uppercase tracking-wide">
                       Backend & APIs
                     </h4>
                   </div>
@@ -368,7 +365,7 @@ export default function Portfolio() {
                       (tech) => (
                         <span
                           key={tech}
-                          className="px-3 py-1.5 bg-foreground/5 text-foreground/80 rounded-lg font-sans text-[14px] font-medium border border-foreground/10 hover:bg-foreground/10 transition-colors">
+                          className="px-3 py-1.5 bg-muted text-black rounded-lg font-sans text-[14px] font-medium border border-border hover:bg-primary/10 hover:border-primary/30 transition-colors">
                           {tech}
                         </span>
                       )
@@ -384,11 +381,8 @@ export default function Portfolio() {
                   transition={{ duration: 0.5, delay: 0.9 }}
                   viewport={{ once: true }}>
                   <div className="flex items-center gap-2 mb-3">
-                    <Database
-                      className="w-5 h-5 text-foreground/70"
-                      strokeWidth={2}
-                    />
-                    <h4 className="font-sans font-semibold text-[16px] text-foreground/80 uppercase tracking-wide">
+                    <Database className="w-5 h-5 text-black" strokeWidth={2} />
+                    <h4 className="font-sans font-semibold text-[16px] text-black uppercase tracking-wide">
                       Databases & Messaging
                     </h4>
                   </div>
@@ -402,7 +396,7 @@ export default function Portfolio() {
                     ].map((tech) => (
                       <span
                         key={tech}
-                        className="px-3 py-1.5 bg-foreground/5 text-foreground/80 rounded-lg font-sans text-[14px] font-medium border border-foreground/10 hover:bg-foreground/10 transition-colors">
+                        className="px-3 py-1.5 bg-muted text-black rounded-lg font-sans text-[14px] font-medium border border-border hover:bg-primary/10 hover:border-primary/30 transition-colors">
                         {tech}
                       </span>
                     ))}
@@ -417,11 +411,8 @@ export default function Portfolio() {
                   transition={{ duration: 0.5, delay: 1.0 }}
                   viewport={{ once: true }}>
                   <div className="flex items-center gap-2 mb-3">
-                    <Cloud
-                      className="w-5 h-5 text-foreground/70"
-                      strokeWidth={2}
-                    />
-                    <h4 className="font-sans font-semibold text-[16px] text-foreground/80 uppercase tracking-wide">
+                    <Cloud className="w-5 h-5 text-black" strokeWidth={2} />
+                    <h4 className="font-sans font-semibold text-[16px] text-black uppercase tracking-wide">
                       Infrastructure & DevOps
                     </h4>
                   </div>
@@ -430,7 +421,7 @@ export default function Portfolio() {
                       (tech) => (
                         <span
                           key={tech}
-                          className="px-3 py-1.5 bg-foreground/5 text-foreground/80 rounded-lg font-sans text-[14px] font-medium border border-foreground/10 hover:bg-foreground/10 transition-colors">
+                          className="px-3 py-1.5 bg-muted text-black rounded-lg font-sans text-[14px] font-medium border border-border hover:bg-primary/10 hover:border-primary/30 transition-colors">
                           {tech}
                         </span>
                       )
@@ -483,7 +474,7 @@ export default function Portfolio() {
           className="min-h-screen flex items-center px-6 sm:px-8 lg:px-16 py-12 sm:py-16 lg:py-20 scroll-mt-0">
           <div className="max-w-6xl w-full">
             <motion.h2
-              className="font-serif font-bold text-2xl sm:text-3xl md:text-4xl lg:text-[48px] text-foreground mb-8 sm:mb-12"
+              className="font-serif font-bold text-2xl sm:text-3xl md:text-4xl lg:text-[48px] text-black mb-8 sm:mb-12"
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
@@ -493,7 +484,7 @@ export default function Portfolio() {
 
             <div className="relative">
               {/* Vertical Timeline Line (hidden on small screens) */}
-              <div className="hidden md:block absolute left-8 top-0 bottom-0 w-0.5 bg-foreground/20" />
+              <div className="hidden md:block absolute left-8 top-0 bottom-0 w-0.5 bg-black/20" />
 
               <motion.div
                 className="space-y-12"
@@ -547,38 +538,38 @@ export default function Portfolio() {
                     viewport={{ once: true }}>
                     {/* Timeline Dot */}
                     <div className="relative flex-shrink-0">
-                      <div className="w-12 h-12 md:w-16 md:h-16 bg-foreground rounded-full flex items-center justify-center text-xl md:text-2xl border-4 border-background shadow-lg z-10">
+                      <div className="w-12 h-12 md:w-16 md:h-16 bg-black rounded-full flex items-center justify-center text-xl md:text-2xl border-4 border-background shadow-lg z-10">
                         {experience.icon}
                       </div>
                     </div>
 
                     {/* Experience Card */}
                     <motion.div
-                      className="flex-1 p-8 bg-white/50 backdrop-blur-sm rounded-xl border-2 border-foreground/10 hover:border-foreground/20 hover:shadow-xl transition-all"
+                      className="flex-1 p-8 bg-card/80 backdrop-blur-sm rounded-xl border-2 border-border hover:border-primary/30 hover:shadow-xl transition-all"
                       whileHover={{ y: -5 }}>
                       <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2 mb-3">
                         <div>
-                          <h3 className="font-sans font-bold text-[24px] text-foreground">
+                          <h3 className="font-sans font-bold text-[24px] text-black">
                             {experience.role}
                           </h3>
-                          <p className="font-sans text-[18px] text-foreground/80 font-medium">
+                          <p className="font-sans text-[18px] text-black font-medium">
                             {experience.company}
                           </p>
                         </div>
-                        <span className="font-sans text-sm md:text-[14px] text-foreground/60 font-medium md:text-right">
+                        <span className="font-sans text-sm md:text-[14px] text-black font-medium md:text-right">
                           {experience.period}
                         </span>
                       </div>
 
                       {/* Summary points */}
-                      <ul className="font-sans text-[16px] text-foreground/70 leading-relaxed list-disc pl-5 space-y-1 mb-4">
+                      <ul className="font-sans text-[16px] text-black leading-relaxed list-disc pl-5 space-y-1 mb-4">
                         {experience.description.map((point) => (
                           <li key={point}>{point}</li>
                         ))}
                       </ul>
 
                       {/* Tech & Skills */}
-                      <p className="font-sans text-[14px] text-foreground/80 leading-relaxed">
+                      <p className="font-sans text-[14px] text-black leading-relaxed">
                         <span className="font-semibold">Tech & skills:</span>{" "}
                         {experience.tech}
                       </p>
@@ -596,7 +587,7 @@ export default function Portfolio() {
           className="min-h-screen flex items-center px-6 sm:px-8 lg:px-16 py-12 sm:py-16 lg:py-20 scroll-mt-0">
           <div className="max-w-6xl w-full">
             <motion.h2
-              className="font-serif font-bold text-2xl sm:text-3xl md:text-4xl lg:text-[48px] text-foreground mb-8 sm:mb-12"
+              className="font-serif font-bold text-2xl sm:text-3xl md:text-4xl lg:text-[48px] text-black mb-8 sm:mb-12"
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
@@ -612,16 +603,16 @@ export default function Portfolio() {
               viewport={{ once: true }}>
               {[
                 {
-                  title: "News Feed Application",
-                  category: "Web Application",
-                  image: "/assets/images/news-feed.png",
-                  codeLink: "https://github.com/Sudharsan25/Global_news_app",
-                  liveLink: "https://news-frontend-pi.vercel.app/news",
+                  title: "PIVOT: Progress that doesn't break",
+                  category: "Full Stack Application",
+                  image: "/assets/images/PIVOT.png",
+                  liveLink: "https://pivot-jade.vercel.app/",
                   description:
-                    "A News feed application that fetches news articles from open source APIs and displays them in a user-friendly interface.",
-                  color: "from-bubblegum-pink-300/40 to-lavender-blush-200/40",
-                  bgColor: "from-bubblegum-pink-50 to-lavender-blush-50",
+                    "A habit and urge tracking application designed specifically for users with ADHD. The app helps users log, track, and manage their urges in real-time with minimal friction, providing immediate feedback and lifetime statistics to support behavior change.",
+                  color: "from-orange-300/40 to-bubblegum-pink-200/40",
+                  bgColor: "from-lavender-blush-50 to-bubblegum-pink-50",
                 },
+
                 {
                   title: "ATS Resume Analyzer",
                   category: "Web Application",
@@ -636,7 +627,7 @@ export default function Portfolio() {
                 },
                 {
                   title: "Interview Agent",
-                  category: "Full Stack Design",
+                  category: "Full Stack Application",
                   image: "/assets/images/interview-agent.png",
                   codeLink: "https://github.com/Sudharsan25/AI_interview_agent",
                   liveLink: "https://ai-interview-agent-one.vercel.app/home",
@@ -657,18 +648,27 @@ export default function Portfolio() {
                   color: "from-orange-300/40 to-bubblegum-pink-200/40",
                   bgColor: "from-lavender-blush-50 to-bubblegum-pink-50",
                 },
+                {
+                  title: "News Feed Application",
+                  category: "Web Application",
+                  image: "/assets/images/news-feed.png",
+                  codeLink: "https://github.com/Sudharsan25/Global_news_app",
+                  liveLink: "https://news-frontend-pi.vercel.app/news",
+                  description:
+                    "A News feed application that fetches news articles from open source APIs and displays them in a user-friendly interface.",
+                  color: "from-bubblegum-pink-300/40 to-lavender-blush-200/40",
+                  bgColor: "from-bubblegum-pink-50 to-lavender-blush-50",
+                },
               ].map((project, index) => (
                 <motion.div
                   key={project.title}
-                  className={`group relative overflow-hidden rounded-2xl bg-gradient-to-br ${project.bgColor} backdrop-blur-sm border-2 border-graphite-200`}
+                  className="group relative overflow-hidden rounded-2xl bg-card/80 backdrop-blur-sm border-2 border-border hover:border-primary/30 transition-all"
                   initial={{ opacity: 0, y: 50 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.15 }}
                   viewport={{ once: true }}
                   whileHover={{ y: -10 }}>
-                  <div
-                    className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl`}
-                  />
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
                   <div className="relative p-8">
                     {/* Project Image */}
                     <div className="h-48 rounded-lg mb-6 overflow-hidden bg-gradient-to-br from-muted/30 to-muted/10">
@@ -685,13 +685,13 @@ export default function Portfolio() {
                       )}
                     </div>
 
-                    <div className="font-sans text-[14px] text-foreground/60 uppercase tracking-wide mb-2">
+                    <div className="font-sans text-[14px] text-black uppercase tracking-wide mb-2">
                       {project.category}
                     </div>
-                    <h3 className="font-sans font-bold text-[24px] text-foreground mb-3">
+                    <h3 className="font-sans font-bold text-[24px] text-black mb-3">
                       {project.title}
                     </h3>
-                    <p className="font-sans text-[16px] text-foreground/70 leading-relaxed mb-6">
+                    <p className="font-sans text-[16px] text-black leading-relaxed mb-6">
                       {project.description}
                     </p>
 
@@ -702,7 +702,7 @@ export default function Portfolio() {
                           href={project.codeLink}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-foreground text-white rounded-lg hover:bg-foreground/90 transition-all font-sans text-[14px] font-medium">
+                          className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-black text-white rounded-lg hover:bg-primary/90 transition-all font-sans text-[14px] font-medium">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="18"
@@ -724,7 +724,7 @@ export default function Portfolio() {
                           href={project.liveLink}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-white border-2 border-foreground/20 text-foreground rounded-lg hover:border-foreground/40 hover:bg-foreground/5 transition-all font-sans text-[14px] font-medium">
+                          className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-card border-2 border-border text-black rounded-lg hover:border-secondary hover:bg-secondary/10 transition-all font-sans text-[14px] font-medium">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="18"
@@ -844,7 +844,7 @@ export default function Portfolio() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}>
             <motion.h2
-              className="font-serif font-bold text-[48px] text-foreground mb-8"
+              className="font-serif font-bold text-[48px] text-black mb-8"
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
@@ -853,7 +853,7 @@ export default function Portfolio() {
             </motion.h2>
 
             <motion.p
-              className="font-sans text-[18px] text-foreground/80 leading-relaxed mb-12"
+              className="font-sans text-[18px] text-black leading-relaxed mb-12"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
@@ -864,7 +864,7 @@ export default function Portfolio() {
             </motion.p>
 
             <motion.div
-              className="bg-white/80 backdrop-blur-sm rounded-2xl p-10 border-2 border-foreground/10"
+              className="bg-card/90 backdrop-blur-sm rounded-2xl p-10 border-2 border-border"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
@@ -884,7 +884,7 @@ export default function Portfolio() {
                     <div>
                       <label
                         htmlFor="name"
-                        className="block font-sans text-[14px] text-foreground/70 font-medium mb-2">
+                        className="block font-sans text-[14px] text-black font-medium mb-2">
                         Name
                       </label>
                       <input
@@ -892,7 +892,7 @@ export default function Portfolio() {
                         id="name"
                         name="name"
                         placeholder="Your name"
-                        className="w-full px-4 py-3 font-sans text-[16px] text-foreground bg-white rounded-lg border-2 border-foreground/10 focus:border-foreground/30 focus:outline-none transition-colors"
+                        className="w-full px-4 py-3 font-sans text-[16px] text-black bg-input rounded-lg border-2 border-border focus:border-primary focus:outline-none transition-colors"
                         required
                       />
                     </div>
@@ -900,7 +900,7 @@ export default function Portfolio() {
                     <div>
                       <label
                         htmlFor="email"
-                        className="block font-sans text-[14px] text-foreground/70 font-medium mb-2">
+                        className="block font-sans text-[14px] text-black font-medium mb-2">
                         Email
                       </label>
                       <input
@@ -908,7 +908,7 @@ export default function Portfolio() {
                         id="email"
                         name="email"
                         placeholder="your.email@example.com"
-                        className="w-full px-4 py-3 font-sans text-[16px] text-foreground bg-white rounded-lg border-2 border-foreground/10 focus:border-foreground/30 focus:outline-none transition-colors"
+                        className="w-full px-4 py-3 font-sans text-[16px] text-black bg-input rounded-lg border-2 border-border focus:border-primary focus:outline-none transition-colors"
                         required
                       />
                     </div>
@@ -916,7 +916,7 @@ export default function Portfolio() {
                     <div>
                       <label
                         htmlFor="subject"
-                        className="block font-sans text-[14px] text-foreground/70 font-medium mb-2">
+                        className="block font-sans text-[14px] text-black font-medium mb-2">
                         Subject
                       </label>
                       <input
@@ -924,7 +924,7 @@ export default function Portfolio() {
                         id="subject"
                         name="subject"
                         placeholder="What's this about?"
-                        className="w-full px-4 py-3 font-sans text-[16px] text-foreground bg-white rounded-lg border-2 border-foreground/10 focus:border-foreground/30 focus:outline-none transition-colors"
+                        className="w-full px-4 py-3 font-sans text-[16px] text-black bg-input rounded-lg border-2 border-border focus:border-primary focus:outline-none transition-colors"
                         required
                       />
                     </div>
@@ -932,7 +932,7 @@ export default function Portfolio() {
                     <div>
                       <label
                         htmlFor="message"
-                        className="block font-sans text-[14px] text-foreground/70 font-medium mb-2">
+                        className="block font-sans text-[14px] text-black font-medium mb-2">
                         Message
                       </label>
                       <textarea
@@ -940,7 +940,7 @@ export default function Portfolio() {
                         name="message"
                         rows={5}
                         placeholder="Write your message here..."
-                        className="w-full px-4 py-3 font-sans text-[16px] text-foreground bg-white rounded-lg border-2 border-foreground/10 focus:border-foreground/30 focus:outline-none transition-colors resize-none"
+                        className="w-full px-4 py-3 font-sans text-[16px] text-black bg-input rounded-lg border-2 border-border focus:border-primary focus:outline-none transition-colors resize-none"
                         required
                       />
                     </div>
@@ -948,7 +948,7 @@ export default function Portfolio() {
                     <motion.button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full px-6 py-3 font-sans text-[16px] font-bold text-white bg-foreground rounded-lg hover:bg-foreground/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full px-6 py-3 font-sans text-[16px] font-bold text-white bg-black rounded-lg hover:bg-primary/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                       whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
                       whileTap={{ scale: isSubmitting ? 1 : 0.98 }}>
                       {isSubmitting ? "Sending..." : "Send Message"}
@@ -963,7 +963,7 @@ export default function Portfolio() {
                   transition={{ duration: 0.5, delay: 0.7 }}
                   viewport={{ once: true }}>
                   <motion.div
-                    className="flex items-start gap-4 p-6 bg-white rounded-xl border-2 border-foreground/10 hover:border-foreground/20 transition-all"
+                    className="flex items-start gap-4 p-6 bg-card rounded-xl border-2 border-border hover:border-primary/30 transition-all"
                     whileHover={{ scale: 1.02 }}>
                     <img
                       src="/assets/icons/mail.svg"
@@ -971,24 +971,24 @@ export default function Portfolio() {
                       className="w-8 h-8 mt-1 flex-shrink-0"
                     />
                     <div className="min-w-0 flex-1">
-                      <div className="font-sans text-[14px] text-foreground/60 uppercase tracking-wide mb-1">
+                      <div className="font-sans text-[14px] text-black uppercase tracking-wide mb-1">
                         Email
                       </div>
                       <a
                         href="mailto:sudharsan.0125@gmail.com"
-                        className="font-sans text-[16px] sm:text-[18px] font-bold text-foreground hover:text-foreground/80 transition-colors break-all">
+                        className="font-sans text-[16px] sm:text-[18px] font-bold text-black hover:text-black/80 transition-colors break-all">
                         sudharsan.0125@gmail.com
                       </a>
                     </div>
                   </motion.div>
 
                   <motion.div
-                    className="mt-6 p-6 bg-gradient-to-br from-foreground/5 to-foreground/10 rounded-xl border-2 border-foreground/10"
+                    className="mt-6 p-6 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-xl border-2 border-border"
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     transition={{ duration: 0.6, delay: 0.9 }}
                     viewport={{ once: true }}>
-                    <p className="font-sans text-[14px] text-foreground/70 leading-relaxed">
+                    <p className="font-sans text-[14px] text-black leading-relaxed">
                       I typically respond within 24 hours. Looking forward to
                       hearing from you! 🚀
                     </p>
