@@ -15,12 +15,14 @@ import {
   Briefcase,
   FolderKanban,
   Mail,
+  FileDown,
 } from "lucide-react";
 import { toast } from "sonner";
 
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState("home");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
@@ -80,6 +82,9 @@ export default function Portfolio() {
       const sections = menuItems.map((item) => item.id);
       const scrollPosition = window.scrollY + window.innerHeight / 3;
 
+      // Check if scrolled
+      setIsScrolled(window.scrollY > 50);
+
       for (const sectionId of sections) {
         const element = document.getElementById(sectionId);
         if (element) {
@@ -96,59 +101,133 @@ export default function Portfolio() {
     };
 
     window.addEventListener("scroll", handleScroll);
+    handleScroll(); // Initial check
     return () => window.removeEventListener("scroll", handleScroll);
   }, [menuItems]);
 
   return (
     <motion.div className="flex min-h-screen bg-background">
-      {/* Mobile Header */}
-      <header className="lg:hidden fixed top-0 left-0 right-0 h-16 flex items-center justify-between px-4 bg-background/90 backdrop-blur z-50 border-b border-border">
-        <div>
-          <h1 className="font-serif font-bold text-lg text-black">Sudharsan</h1>
-        </div>
-        <div className="flex items-center gap-3">
-          <button
-            aria-label="Toggle menu"
-            onClick={() => setMobileMenuOpen((s) => !s)}
-            className="p-2 rounded-md bg-muted/50 hover:bg-muted transition-colors">
-            {mobileMenuOpen ? "Close" : "Menu"}
-          </button>
-        </div>
-      </header>
+      {/* Top Navigation Bar */}
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-6 ${
+          isScrolled
+            ? "bg-background/70 backdrop-blur-md border-b border-border/50 shadow-sm"
+            : "bg-transparent"
+        }`}>
+        <nav
+          className={`mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between transition-all duration-300 ${
+            isScrolled ? "max-w-6xl" : "max-w-7xl"
+          }`}>
+          {/* Logo/Branding */}
+          <div className="shrink-0">
+            <h1 className="font-serif font-bold text-xl sm:text-2xl text-black">
+              Sudharsan
+            </h1>
+          </div>
 
-      {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-16 top-16 z-40 bg-background/98 backdrop-blur p-6 border-b border-border">
-          <nav className="flex flex-col gap-4">
-            {menuItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => {
-                  scrollToSection(item.id);
-                  setMobileMenuOpen(false);
-                }}
-                className="font-sans text-lg uppercase text-black">
-                {item.label}
-              </button>
-            ))}
-          </nav>
-        </div>
-      )}
-      {/* Sidebar */}
-      <aside className="hidden lg:flex fixed left-0 top-0 h-screen w-[285px] bg-sidebar border-r border-sidebar-border flex-col justify-between py-14 px-12 z-50">
-        {/* Logo */}
-        <div>
-          {/* Navigation Menu */}
-          <nav className="flex flex-col gap-5 justify-center">
+          {/* Desktop Navigation Links */}
+          <div className="hidden lg:flex items-center gap-1 xl:gap-2 flex-1 justify-center">
             {menuItems.map((item) => {
               const IconComponent = item.icon;
               return (
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
-                  className={`font-sans text-[20px] uppercase text-left transition-all duration-300 flex items-center gap-3 ${
+                  className={`font-sans text-sm xl:text-base uppercase px-4 xl:px-6 py-2 rounded-lg transition-all duration-300 flex items-center gap-2 ${
                     activeSection === item.id
-                      ? "font-bold text-white"
-                      : "font-normal text-sidebar-foreground/70 hover:text-amber-100"
+                      ? "font-bold text-black bg-black/10"
+                      : "font-normal text-black/70 hover:text-black hover:bg-black/5"
+                  }`}>
+                  <IconComponent className="w-4 h-4" />
+                  {item.label}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Right Side: Social Icons & Resume */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Resume Download */}
+            <a
+              href="/resume.pdf"
+              download
+              className="p-2 rounded-lg hover:bg-black/10 transition-all duration-300 group"
+              title="Download Resume">
+              <FileDown className="w-5 h-5 sm:w-6 sm:h-6 text-black group-hover:opacity-70 transition-opacity" />
+            </a>
+
+            {/* Social Icons */}
+            <a
+              href="https://x.com/sudharsanskumar"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded-lg hover:bg-black/10 transition-all duration-300 group"
+              title="Twitter">
+              <Image
+                src="/assets/icons/x.svg"
+                alt="Twitter"
+                height={20}
+                width={20}
+                className="w-5 h-5 sm:w-6 sm:h-6 group-hover:opacity-70 transition-opacity"
+              />
+            </a>
+            <a
+              href="https://www.linkedin.com/in/sudharsans25/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded-lg hover:bg-black/10 transition-all duration-300 group"
+              title="LinkedIn">
+              <Image
+                src="/assets/icons/linkedin.svg"
+                alt="LinkedIn"
+                height={20}
+                width={20}
+                className="w-5 h-5 sm:w-6 sm:h-6 group-hover:opacity-70 transition-opacity"
+              />
+            </a>
+            <a
+              href="https://github.com/Sudharsan25"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded-lg hover:bg-black/10 transition-all duration-300 group"
+              title="GitHub">
+              <Image
+                src="/assets/icons/github.svg"
+                alt="GitHub"
+                height={20}
+                width={20}
+                className="w-5 h-5 sm:w-6 sm:h-6 group-hover:opacity-70 transition-opacity"
+              />
+            </a>
+
+            {/* Mobile Menu Button */}
+            <button
+              aria-label="Toggle menu"
+              onClick={() => setMobileMenuOpen((s) => !s)}
+              className="lg:hidden p-2 rounded-lg bg-black/10 hover:bg-black/20 transition-colors">
+              {mobileMenuOpen ? "Close" : "Menu"}
+            </button>
+          </div>
+        </nav>
+      </header>
+
+      {/* Mobile Menu */}
+      {mobileMenuOpen && (
+        <div className="lg:hidden fixed inset-x-0 top-16 z-40 bg-background/98 backdrop-blur-md border-b border-border shadow-lg">
+          <nav className="flex flex-col p-6 gap-4">
+            {menuItems.map((item) => {
+              const IconComponent = item.icon;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => {
+                    scrollToSection(item.id);
+                    setMobileMenuOpen(false);
+                  }}
+                  className={`font-sans text-lg uppercase text-left transition-all duration-300 flex items-center gap-3 py-2 ${
+                    activeSection === item.id
+                      ? "font-bold text-black"
+                      : "font-normal text-black/70"
                   }`}>
                   <IconComponent className="w-5 h-5" />
                   {item.label}
@@ -157,69 +236,23 @@ export default function Portfolio() {
             })}
           </nav>
         </div>
-
-        {/* Social Icons Bottom */}
-        <div className="flex gap-3 items-start">
-          <button className="p-2 rounded-lg hover:bg-sidebar-accent/20 transition-all duration-300 group">
-            <a
-              href="https://x.com/sudharsanskumar"
-              target="_blank"
-              rel="noopener noreferrer">
-              <Image
-                src="/assets/icons/x.svg"
-                alt="Twitter"
-                height={12}
-                width={12}
-                className="w-9 h-9 group-hover:brightness-150 transition-all"
-              />
-            </a>
-          </button>
-          <button className="p-2 rounded-lg hover:bg-sidebar-accent/20 transition-all duration-300 group">
-            <a
-              href="https://www.linkedin.com/in/sudharsans25/"
-              target="_blank"
-              rel="noopener noreferrer">
-              <Image
-                src="/assets/icons/linkedin.svg"
-                alt="LinkedIn"
-                height={16}
-                width={16}
-                className="w-10 h-10 group-hover:brightness-150 transition-all"
-              />
-            </a>
-          </button>
-          <button className="p-2 rounded-lg hover:bg-sidebar-accent/20 transition-all duration-300 group">
-            <a
-              href="https://github.com/Sudharsan25"
-              target="_blank"
-              rel="noopener noreferrer">
-              <Image
-                src="/assets/icons/github.svg"
-                alt="GitHub"
-                height={16}
-                width={16}
-                className="w-10 h-10 group-hover:brightness-150 transition-all"
-              />
-            </a>
-          </button>
-        </div>
-      </aside>
+      )}
 
       {/* Main Content */}
-      <main className="flex-1 relative lg:ml-[285px]">
+      <main className="flex-1 relative w-full pt-20 lg:pt-24">
         {/* Hero Section */}
         <section
           id="home"
-          className="relative min-h-screen flex items-center justify-between px-6 sm:px-8 lg:px-16 py-12 sm:py-16 lg:py-20 scroll-mt-0">
-          {/* Left Content */}
+          className="relative min-h-screen flex items-center justify-center px-6 sm:px-8 lg:px-16 py-12 sm:py-16 lg:py-20 scroll-mt-0">
+          {/* Hero Content */}
           <motion.div
-            className="relative z-10 max-w-[600px]"
+            className="relative z-10 max-w-[600px] mx-auto"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}>
             {/* Gradient Blob Background */}
-            <div className="absolute -left-24 -top-12">
+            <div className="absolute left-1/2 -translate-x-1/2 -top-12">
               <img
                 src="/assets/graphics/gradient-blob.svg"
                 alt=""
@@ -259,7 +292,7 @@ export default function Portfolio() {
           id="about"
           className="min-h-screen flex items-center px-6 sm:px-8 lg:px-16 py-12 sm:py-16 lg:py-20 scroll-mt-0">
           <motion.div
-            className="max-w-4xl"
+            className="max-w-4xl mx-auto w-full"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -472,7 +505,7 @@ export default function Portfolio() {
         <section
           id="experiences"
           className="min-h-screen flex items-center px-6 sm:px-8 lg:px-16 py-12 sm:py-16 lg:py-20 scroll-mt-0">
-          <div className="max-w-6xl w-full">
+          <div className="max-w-6xl w-full mx-auto">
             <motion.h2
               className="font-serif font-bold text-2xl sm:text-3xl md:text-4xl lg:text-[48px] text-black mb-8 sm:mb-12"
               initial={{ opacity: 0, x: -30 }}
@@ -585,7 +618,7 @@ export default function Portfolio() {
         <section
           id="works"
           className="min-h-screen flex items-center px-6 sm:px-8 lg:px-16 py-12 sm:py-16 lg:py-20 scroll-mt-0">
-          <div className="max-w-6xl w-full">
+          <div className="max-w-6xl w-full mx-auto">
             <motion.h2
               className="font-serif font-bold text-2xl sm:text-3xl md:text-4xl lg:text-[48px] text-black mb-8 sm:mb-12"
               initial={{ opacity: 0, x: -30 }}
@@ -836,9 +869,9 @@ export default function Portfolio() {
         {/* Contact Section */}
         <section
           id="contact"
-          className="min-h-screen flex items-center px-16 py-20 scroll-mt-0">
+          className="min-h-screen flex items-center px-6 sm:px-8 lg:px-16 py-12 sm:py-16 lg:py-20 scroll-mt-0">
           <motion.div
-            className="max-w-4xl w-full"
+            className="max-w-4xl w-full mx-auto"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.8 }}
