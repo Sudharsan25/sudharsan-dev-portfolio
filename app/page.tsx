@@ -312,28 +312,30 @@ export default function Portfolio() {
               transition={{ duration: 0.8, delay: 0.4 }}
               viewport={{ once: true }}>
               <p className="font-sans text-[18px] text-black leading-relaxed mb-6">
-                I build modern, scalable software products from the ground up —
-                from clean, interactive user interfaces to reliable backend
-                systems and cloud infrastructure.
+                I design and build end-to-end software products that solve real
+                problems — from intuitive, accessible user interfaces to
+                scalable backend systems and reliable cloud infrastructure.
               </p>
-              <p className="font-sans text-[18px] text-foreground/80 leading-relaxed mb-8">
-                My work focuses on creating end-to-end solutions using a modern
-                TypeScript-based stack. On the frontend, I build responsive and
-                accessible interfaces with React and Next.js, while on the
-                backend I design structured, maintainable services using NestJS
-                and REST-based APIs.
+
+              <p className="font-sans text-[18px] text-black leading-relaxed mb-8">
+                I specialize in building modern, production-ready applications
+                using a TypeScript-based stack. On the frontend, I create
+                responsive and user-focused interfaces with React and Next.js.
+                On the backend, I design clean, maintainable services using
+                NestJS, RESTful APIs, and relational databases.
               </p>
-              <p className="font-sans text-[18px] text-foreground/80 leading-relaxed mb-8">
-                Alongside product development, I’m deeply interested in applied
-                AI. I’m currently expanding my work into Generative AI,
-                cloud-native systems, and MLOps, with the goal of building
-                intelligent applications where AI is not an add-on, but a core
-                part of the system.
+
+              <p className="font-sans text-[18px] text-black leading-relaxed mb-8">
+                My approach goes beyond writing code — I focus on system design,
+                data flow, performance, and long-term maintainability. I enjoy
+                working through tradeoffs, designing for scale, and turning
+                ambiguous requirements into clear, well-structured solutions.
               </p>
-              <p className="font-sans text-[18px] text-foreground/80 leading-relaxed mb-8">
-                My long-term aim is to grow into an AI Engineer who can design
-                and deliver complete full-stack products — combining robust
-                software engineering with complex, production-ready AI systems.
+
+              <p className="font-sans text-[18px] text-black leading-relaxed mb-8">
+                I build with a product mindset: understanding the problem first,
+                choosing the right tools for the job, and delivering solutions
+                that are reliable, extensible, and ready for real-world use.
               </p>
             </motion.div>
 
@@ -349,6 +351,31 @@ export default function Portfolio() {
               </h3>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Programming Languages*/}
+                <motion.div
+                  className="space-y-3"
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.7 }}
+                  viewport={{ once: true }}>
+                  <div className="flex items-center gap-2 mb-3">
+                    <Layout className="w-5 h-5 text-black" strokeWidth={2} />
+                    <h4 className="font-sans font-semibold text-[16px] text-black uppercase tracking-wide">
+                      Programming Languages
+                    </h4>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {["JavaScript", "TypeScript", "Python", "SQL"].map(
+                      (tech) => (
+                        <span
+                          key={tech}
+                          className="px-3 py-1.5 bg-muted text-black rounded-lg font-sans text-[14px] font-medium border border-border hover:bg-primary/10 hover:border-primary/30 transition-colors">
+                          {tech}
+                        </span>
+                      )
+                    )}
+                  </div>
+                </motion.div>
                 {/* Frontend */}
                 <motion.div
                   className="space-y-3"
@@ -369,7 +396,6 @@ export default function Portfolio() {
                       "Vite",
                       "React Router",
                       "TailwindCSS",
-                      "shadcn/ui",
                     ].map((tech) => (
                       <span
                         key={tech}
@@ -394,15 +420,13 @@ export default function Portfolio() {
                     </h4>
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    {["NestJS", "TypeScript", "FastAPI", "REST APIs"].map(
-                      (tech) => (
-                        <span
-                          key={tech}
-                          className="px-3 py-1.5 bg-muted text-black rounded-lg font-sans text-[14px] font-medium border border-border hover:bg-primary/10 hover:border-primary/30 transition-colors">
-                          {tech}
-                        </span>
-                      )
-                    )}
+                    {["NestJS", "FastAPI", "REST APIs"].map((tech) => (
+                      <span
+                        key={tech}
+                        className="px-3 py-1.5 bg-muted text-black rounded-lg font-sans text-[14px] font-medium border border-border hover:bg-primary/10 hover:border-primary/30 transition-colors">
+                        {tech}
+                      </span>
+                    ))}
                   </div>
                 </motion.div>
 
@@ -422,10 +446,10 @@ export default function Portfolio() {
                   <div className="flex flex-wrap gap-2">
                     {[
                       "PostgreSQL",
-                      "SQL",
                       "MongoDB",
                       "Drizzle ORM",
                       "RabbitMQ",
+                      "Redis(Cache)",
                     ].map((tech) => (
                       <span
                         key={tech}
@@ -532,10 +556,11 @@ export default function Portfolio() {
                       "Freelance Consultant · KERA C · Chennai, India (Hybrid)",
                     period: "Oct 2025 – Present",
                     description: [
-                      "Building distributed backend services with microservice-based architecture for assessment and production workflows.",
-                      "Designing scalable APIs and data models to support high-availability, cloud-hosted applications.",
+                      "Building scalable, multi-tenant backend systems using microservice-based and event-driven architectures, ensuring high performance, reliability, and maintainability in production.",
+
+                      "Designed, optimized, and deployed cloud-hosted APIs and infrastructure with a focus on system scalability, low-latency data access, and clean, extensible architecture.",
                     ],
-                    tech: "Nest.js, TypeScript, RabbitMQ, Docker, PostgreSQL, Drizzle ORM, AWS Aurora PostgreSQL, AWS EC2, Clean Architecture",
+                    tech: "Nest.js, TypeScript, RabbitMQ, Docker, Redis, PostgreSQL, Drizzle ORM, AWS Aurora PostgreSQL, AWS EC2, Clean Architecture",
                     icon: "💼",
                   },
                   {
