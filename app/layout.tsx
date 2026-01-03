@@ -20,7 +20,7 @@ const ibmPlexSerif = IBM_Plex_Serif({
 export const metadata: Metadata = {
   title: "Sudharsan-Portfolio",
   description:
-    "Sudharsan Senthil Kumar Personal Portfolio Website: Full-Stack Developer & AI Engineer",
+    "Personal Portfolio Website of Sudharsan S: Full-Stack Developer & AI Engineer",
 };
 
 export default function RootLayout({
