@@ -158,7 +158,7 @@ export default function Portfolio() {
 
             {/* Social Icons */}
             <a
-              href="https://x.com/sudharsanskumar"
+              href="https://x.com/sudharsandevv"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 rounded-lg hover:bg-black/10 transition-all duration-300 group"
@@ -394,7 +394,7 @@ export default function Portfolio() {
                       "Next.js",
                       "React",
                       "Vite",
-                      "React Router",
+                      "Redux Toolkit",
                       "TailwindCSS",
                     ].map((tech) => (
                       <span
